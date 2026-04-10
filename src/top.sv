@@ -1,35 +1,51 @@
+`include "src/decoder.sv"
+`include "src/adder.sv"
+
 module top (
     /** Input Ports */
-    input wire [3:0] bcd,
+    input logic [4:0] res,
     /** Output Ports */
-    output logic [6:0] seg7
+    output logic [7:0] seg7
 );
 
 /** Logic */
-wire a = bcd[3];
-wire b = bcd[2];
-wire c = bcd[1];
-wire d = bcd[0];
-/** would have been a lot faster if i just just case statements */
 always @(*) begin
-    case (bcd)
-        4'h0: seg7 = 7'b1111110; 
-        4'h1: seg7 = 7'b0110000;
-        4'h2: seg7 = 7'b1101101;
-        4'h3: seg7 = 7'b1111001;
-        4'h4: seg7 = 7'b0110011;
-        4'h5: seg7 = 7'b1011011;
-        4'h6: seg7 = 7'b1011111;
-        4'h7: seg7 = 7'b1110000;
-        4'h8: seg7 = 7'b1111111;
-        4'h9: seg7 = 7'b1111011;
-        4'hA: seg7 = 7'b1110111;
-        4'hB: seg7 = 7'b0011111;
-        4'hC: seg7 = 7'b1001110;
-        4'hD: seg7 = 7'b0111101;
-        4'hE: seg7 = 7'b1001111;
-        4'hF: seg7 = 7'b1000111;
-        default: seg7 = 7'b0111111; 
+    case (res)
+        // without carry bit
+        5'h0: seg7 = 8'b11111100;
+        5'h1: seg7 = 8'b01100000;
+        5'h2: seg7 = 8'b11011010;
+        5'h3: seg7 = 8'b11110010;
+        5'h4: seg7 = 8'b01100110;
+        5'h5: seg7 = 8'b10110110;
+        5'h6: seg7 = 8'b10111110;
+        5'h7: seg7 = 8'b11100000;
+        5'h8: seg7 = 8'b11111110;
+        5'h9: seg7 = 8'b11110110;
+        5'hA: seg7 = 8'b11101110;
+        5'hB: seg7 = 8'b00111110;
+        5'hC: seg7 = 8'b10011100;
+        5'hD: seg7 = 8'b01111010;
+        5'hE: seg7 = 8'b10011110;
+        5'hF: seg7 = 8'b10001110;
+        // with carry bit
+        5'h10: seg7 = 8'b11111101;
+        5'h11: seg7 = 8'b01100001;
+        5'h12: seg7 = 8'b11011011;
+        5'h13: seg7 = 8'b11110011;
+        5'h14: seg7 = 8'b01100111;
+        5'h15: seg7 = 8'b10110111;
+        5'h16: seg7 = 8'b10111111;
+        5'h17: seg7 = 8'b11100001;
+        5'h18: seg7 = 8'b11111111;
+        5'h19: seg7 = 8'b11110111;
+        5'h1A: seg7 = 8'b11101111;
+        5'h1B: seg7 = 8'b00111111;
+        5'h1C: seg7 = 8'b10011101;
+        5'h1D: seg7 = 8'b01111011;
+        5'h1E: seg7 = 8'b10011111;
+        5'h1F: seg7 = 8'b10001111;
+        default: seg7 = 8'b11111100; 
     endcase
 end
 
