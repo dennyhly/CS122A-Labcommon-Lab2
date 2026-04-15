@@ -3,13 +3,15 @@
 
 module top_tb;
 logic clk;
-logic [3:0] bcd;
-logic [6:0] seg7;
+logic [3:0] val1;
+logic [3:0] val2;
+logic [7:0] seg7;
 
 top top_uut
 (
     /** add additional signals */
-    .bcd(bcd),
+    .val1(val1),
+    .val2(val2),
     .seg7(seg7)
 );
 
