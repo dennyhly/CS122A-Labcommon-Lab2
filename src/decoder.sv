@@ -7,7 +7,7 @@ module decoder (
 
 /** Logic */
 always @(*) begin
-    case (bcd)
+    case (val1)
         4'h0: seg7 = 7'b1111110; 
         4'h1: seg7 = 7'b0110000;
         4'h2: seg7 = 7'b1101101;
@@ -24,7 +24,7 @@ always @(*) begin
         4'hD: seg7 = 7'b0111101;
         4'hE: seg7 = 7'b1001111;
         4'hF: seg7 = 7'b1000111;
-        default: seg7 = 7'b0111111; 
+        default: seg7 = 7'b1111110; 
     endcase
 end
 

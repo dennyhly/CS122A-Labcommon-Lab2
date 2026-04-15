@@ -6,6 +6,7 @@ logic clk;
 logic [3:0] val1;
 logic [3:0] val2;
 logic [7:0] seg7;
+logic pass;
 
 top top_uut
 (
@@ -19,49 +20,64 @@ localparam CLK_PERIOD = 5;
 always #(CLK_PERIOD/2) clk=~clk;
 
 initial begin
-    $dumpfile("build/top.vcd");
+    // Set up output to VCDD file
+    $dumpfile("tb.vcd");
     $dumpvars(0, top_tb);
+
+    // Initialize testbench variables
+    pass = 1'b1;
+
+    // Simulate the clock signal
+    clk = 1'b0;
+    forever begin
+        #10 clk = ~clk;
+    end
 end
 
-initial begin
-    clk<=1'b1;
-    #(CLK_PERIOD*3);
     // testbench logic goes below
-    bcd <= 4'd0;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd1;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd2;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd3;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd4;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd5;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd6;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd7;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd8;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd9;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd10;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd11;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd12;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd13;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd14;
-    #(CLK_PERIOD*3);
-    bcd <= 4'd15;
-    #(CLK_PERIOD*3);
 
+    task test_Addition_No_Carry();
+    begin
+        val1 = 4'h5;
+        val2 = 4'h4;
+        #15;
+        // 5 + 4 = 9. Expected: 8'b11110110
+        pass &= (seg7 == 8'b11110110);
+        if (seg7 !== 8'b11110110) $display("Fail: 5+4 expected 9, got %b", seg7);
+    end
+    endtask
 
-    $finish;
+    task test_Addition_Carry();
+    begin
+        val1 = 4'hF;
+        val2 = 4'h1;
+        #15;
+        // F + 1 = 10 (hex). Expected: 8'b11111101 
+        pass &= (seg7 == 8'b11111101);
+        if (seg7 !== 8'b11111101) $display("Fail: F+1 expected 10, got %b", seg7);
+    end
+    endtask
+ 
+initial begin
+        // Initialize variables
+        pass = 1'b1;
+        val1 = 0;
+        val2 = 0;
+
+        // Wait for first clock edge to start
+        @(negedge clk); 
+        test_Addition_No_Carry(); 
+        
+        @(negedge clk); 
+        test_Addition_Carry(); 
+
+        // Final Result Display
+        if (pass) begin
+            $display("Tests Passed!");
+        end else begin
+            $display("Failed tests");
+        end
+        $finish();
 end
 
 endmodule

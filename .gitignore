@@ -1,1 +1,5 @@
 build
+decoder.vcd
+tb.vcd
+testbench
+decoder_tb.sv
