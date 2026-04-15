@@ -3,9 +3,18 @@
 
 module top (
     /** Input Ports */
-    input logic [4:0] res,
+    input wire [3:0] val1,
+    input wire [3:0] val2,
     /** Output Ports */
     output logic [7:0] seg7
+);
+
+wire [4:0] res;
+
+adder add_inst (
+    .val1(val1),
+    .val2(val2), 
+    .res(res)
 );
 
 /** Logic */

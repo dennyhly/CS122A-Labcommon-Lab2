@@ -1,0 +1,24 @@
+# clock
+set_io clk 35
+
+# val1 inputs
+set_io val1[3] 36
+set_io val1[2] 38
+set_io val1[1] 40
+set_io val1[0] 42
+
+# val2 inputs
+set_io val2[3] 43
+set_io val2[2] 41
+set_io val2[1] 39
+set_io val2[0] 37
+
+# seg7 outputs
+set_io seg7[6] 23  # A
+set_io seg7[5] 24  # B
+set_io seg7[4] 25  # C
+set_io seg7[3] 26  # D
+set_io seg7[2] 27  # E
+set_io seg7[1] 28  # F
+set_io seg7[0] 29  # G
+set_io seg7[7] 30  # DP

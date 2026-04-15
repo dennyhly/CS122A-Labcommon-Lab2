@@ -1,6 +1,6 @@
 module decoder (
     /** Input Ports */
-    input wire [3:0] bcd,
+    input wire [3:0] val1,
     /** Output Ports */
     output logic [6:0] seg7
 );
